@@ -2,6 +2,7 @@ package com.example.service;
 
 import com.example.domain.Department;
 import com.example.persistence.DepartmentMapper;
+import com.example.persistence.UserMapper;
 import com.example.security.DepartmentStatus;
 import javafx.beans.binding.When;
 import org.junit.After;
@@ -22,10 +23,11 @@ import static org.mockito.Mockito.verify;
  */
 public class DepartmentServiceTest {
    private DepartmentMapper departmentMapper;
-
+    private UserMapper userMapper;
     @Before
     public void setUp() throws Exception {
         departmentMapper = PowerMockito.mock( DepartmentMapper.class );
+        userMapper = PowerMockito.mock( UserMapper.class );
     }
 
     @After
@@ -51,7 +53,7 @@ public class DepartmentServiceTest {
             //  当departmentMapper调用insert方法时参数会保存到departmentArgumentCaptor中
         PowerMockito.when( departmentMapper.insert( departmentArgumentCaptor.capture() ) ).thenReturn( 1 );
         // 3.方法调用
-        Department actual = new DepartmentService( departmentMapper ).createDepartment( department );
+        Department actual = new DepartmentService( departmentMapper,userMapper ).createDepartment( department );
         // 4.verify 结果
             // 拿取调用时的参数
         assertThat( departmentArgumentCaptor.getValue().getName() ).isEqualTo("test_name123");

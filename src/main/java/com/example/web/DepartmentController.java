@@ -8,8 +8,9 @@ import com.example.service.DepartmentService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.math.BigInteger;
 import java.util.List;
+import com.example.exception.core.ValidationError;
+import com.example.exception.core.ValidationException;
 
 /**
  * Created by silence on 2017/7/20.
@@ -27,66 +28,62 @@ public class DepartmentController {
     // 查询部门列表
     @GetMapping("/departments")
     public List<Department> getDepartments(@RequestParam Integer current,@RequestParam Integer size){
+        if( current == null ){
+            throw new ValidationException( new ValidationError( "current", "should.be.empty") );
+        }
+        if ( size == null ) {
+            throw new ValidationException( new ValidationError( "size", "should.be.empty") );
+        }
        Page<Department> page = new Page<Department>(current,size);
        return departmentService.getDepartments(page);
     }
+
     // 根据Id查询部门列表
     @GetMapping("/departments/{departmentId}")
     public Department getDepartmentByID(@PathVariable Long departmentId){
+        if( departmentId == null ){
+            throw new ValidationException( new ValidationError( "departmentId", "should.be.empty") );
+        }
         return departmentService.getDepartmentByID( departmentId );
     }
+
     // 根据部门名称搜索部门列表
     @GetMapping("/departments/search")
     public Department searchDepartment(@RequestParam String keyword){
+        if( keyword == null ){
+            throw new ValidationException( new ValidationError( "departmentName", "should.be.empty") );
+        }
         return departmentService.searchDepartment( keyword );
     }
+
     // 新增
     @PostMapping("/departments")
-    public String insertDepartment(@RequestBody @Valid Department department){
-        try{
-            departmentService.createDepartment( department );
-        }catch (Exception e){
-            e.printStackTrace();
-            return "failed insert";
-        }
-        return "success insert";
+    public Department insertDepartment(@RequestBody @Valid Department department){
+        return departmentService.createDepartment( department );
     }
-    // 修改
-   /* @PutMapping("/departments")
-    public String updateDepartment(@RequestBody @Valid Department department){
-        try {
-            departmentService.updateDepartment( department );
-        }catch (Exception e){
-            e.printStackTrace();
-            return "failed update";
-        }
-        return "success update";
 
-    }*/
-    @PutMapping("/departments")
+    // 修改
+   @PutMapping("/departments")
+    public Department updateDepartment(@RequestBody @Valid Department department){
+        return  departmentService.updateDepartment( department );
+    }
+
+    // 实验两个update效果
+    /*@PutMapping("/departments")
     public String updateDepartment(@RequestBody Department department){
-        /*try {
-            departmentService.updateDepartment( department );
-        }catch (Exception e){
-            e.printStackTrace();
-            return "failed update";
-        }*/
-       /* departmentService.update(department,new EntityWrapper<Department>());*/
+
+       *//*departmentService.update(department,new EntityWrapper<Department>());*//*
         departmentService.updateAllColumnById(department);
         return "success update";
-    }
-    // 删除
-    @DeleteMapping("/departments/{departmentId}")
-    public String deleteDepartment(@PathVariable Long departmentId){
-        return "success delete : "+ departmentService.deleteDepartment(departmentId);
-    }
-   /* @GetMapping("/users/search/by/department")
-    public List<User> getUsersByDepartmentId(@RequestParam Integer id,@RequestParam Integer page,@RequestParam Integer size){
-        return departmentService.getUsersByDepartmentId( id , page, size );
     }*/
 
-    /*@GetMapping("/selectUserDep")
-    public Department queryUserToDepartment(@RequestParam BigInteger id){
-        return departmentService.queryUserToDepartment( id );
-    }*/
+    // 删除
+    @DeleteMapping("/departments/{departmentId}")
+    public void deleteDepartment(@PathVariable Long departmentId){
+        if( departmentId == null ){
+            throw new ValidationException( new ValidationError( "departmentId", "should.be.empty") );
+        }
+        departmentService.deleteDepartment( departmentId );
+    }
+
 }

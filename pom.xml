@@ -53,9 +53,7 @@
 			<version>1.7</version>
 		</dependency>
 
-
 		<!-- mybatis-plus begin -->
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
@@ -70,8 +68,6 @@
 			<artifactId>mybatis-plus</artifactId>
 			<version>${mybatisplus.version}</version>
 		</dependency>
-
-
 		<!-- mybatis-plus end -->
 
 		<!-- JUnit test dependency -->

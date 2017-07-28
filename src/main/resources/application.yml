@@ -6,7 +6,7 @@ server:
 spring:
   devtools:
     restart:
-      #enabled: false
+      enabled: false
 
   #  DATABASE CONFIG
   datasource:

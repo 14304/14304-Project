@@ -85,10 +85,7 @@ public class DatabaseConfiguration {
             mybatisSqlSessionFactoryBean.setTypeAliasesPackage(this.properties.getTypeAliasesPackage());
         }
         if (StringUtils.hasLength(this.properties.getTypeHandlersPackage())) {
-            mybatisSqlSessionFactoryBean.setTypeHandlersPackage("com.helioscloud.atlantis.persistence.typehandler," + this.properties.getTypeHandlersPackage());
-        } else {
-            // By default, helios-core type handlers need to be included.
-            mybatisSqlSessionFactoryBean.setTypeHandlersPackage("com.helioscloud.atlantis.persistence.typehandler");
+            mybatisSqlSessionFactoryBean.setTypeHandlersPackage(this.properties.getTypeHandlersPackage());
         }
         if (!ObjectUtils.isEmpty(this.properties.resolveMapperLocations())) {
             mybatisSqlSessionFactoryBean.setMapperLocations(this.properties.resolveMapperLocations());

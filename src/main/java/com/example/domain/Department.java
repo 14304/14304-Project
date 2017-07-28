@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.enums.FieldStrategy;
 import com.baomidou.mybatisplus.enums.IdType;
 import com.example.security.AuthenticationMethod;
 import com.example.security.DepartmentStatus;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.Builder;
 import lombok.Data;
 
@@ -23,7 +24,7 @@ import java.time.ZonedDateTime;
 @Data
 @TableName("atl_department")
 public class Department{
-    @TableId(type = IdType.AUTO)
+
     @TableField(strategy = FieldStrategy.NOT_NULL)
     private Long id;
     @TableField(value="department_name",strategy = FieldStrategy.NOT_NULL)
